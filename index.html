@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SecuraDist — Cibersegurança avançada, sistemas distribuídos, formação e compliance para empresas em Portugal e Angola.">
+<meta name="theme-color" content="#0B1F3A">
+<title>SecuraDist — Segurança que Distribui Valor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg viewBox='0 0 100 115' xmlns='http://www.w3.org/2000/svg'><polygon points='50,4 96,28 96,86 50,110 4,86 4,28' fill='none' stroke='%2300AF91' stroke-width='5'/><polygon points='50,20 82,38 82,78 50,96 18,78 18,38' fill='%2312604E'/><polygon points='50,34 70,45 70,71 50,82 30,71 30,45' fill='%2300AF91'/><text x='50' y='68' text-anchor='middle' font-family='Arial' font-weight='900' font-size='22' fill='%230B1F3A'>SD</text></svg>">
+<style>
+:root {
+  --navy: #0B1F3A;
+  --teal: #00AF91;
+  --teal-mid: #00877A;
+  --teal-dark: #12604E;
+  --gold: #C9A84C;
+  --gold-dark: #9E8235;
+  --white: #FFFFFF;
+  --gray: #334455;
+  --light-bg: #F4F6F8;
+  --border: #dde3ea;
+  --text-muted: #8798AA;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ───── NAV ───── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  background: rgba(11,31,58,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 0 6%;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.nav-logo-text { font-size: 18px; font-weight: 800; color: var(--white); }
+.nav-logo-text span { color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
+.nav-links a:hover { color: var(--teal); }
+.nav-cta {
+  background: var(--teal); color: var(--navy);
+  padding: 9px 20px; border-radius: 8px;
+  font-size: 14px; font-weight: 700;
+  text-decoration: none; transition: background .2s, transform .15s;
+  white-space: nowrap;
+}
+.nav-cta:hover { background: #00c9a7; transform: translateY(-1px); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+.hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all .3s; }
+.mobile-menu {
+  display: none; position: fixed; top: 68px; left: 0; right: 0; bottom: 0;
+  background: var(--navy); z-index: 998; padding: 32px 6%; flex-direction: column; gap: 8px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  color: var(--white); text-decoration: none; font-size: 20px; font-weight: 700;
+  padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.mobile-cta { margin-top: 16px; background: var(--teal); color: var(--navy); padding: 16px; border-radius: 10px; text-align: center; font-size: 16px !important; border: none !important; }
+
+/* ───── HERO ───── */
+#inicio {
+  min-height: 100vh; padding: 120px 6% 80px;
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+}
+.hero-stripe {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 5px;
+  background: linear-gradient(to bottom, var(--teal), var(--gold));
+}
+.hero-grid { display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,175,145,0.12); border: 1px solid rgba(0,175,145,0.3); border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 700; color: var(--teal); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 24px; }
+.hero-dot { width: 7px; height: 7px; background: var(--teal); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.5; transform:scale(1.4); } }
+.hero-title { font-size: clamp(36px, 5vw, 60px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+.hero-title em { font-style: normal; color: var(--teal); }
+.hero-sub { font-size: 17px; color: rgba(255,255,255,0.65); line-height: 1.75; max-width: 520px; margin-bottom: 36px; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary { background: var(--teal); color: var(--navy); padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; transition: all .2s; }
+.btn-primary:hover { background: #00c9a7; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,175,145,0.3); }
+.btn-outline { border: 2px solid var(--gold); color: var(--gold); padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; text-decoration: none; transition: all .2s; }
+.btn-outline:hover { background: rgba(201,168,76,0.1); transform: translateY(-2px); }
+.hero-visual { position: relative; display: flex; align-items: center; justify-content: center; }
+.hero-hex-wrap { position: relative; width: 340px; height: 390px; }
+.hex-bg { position: absolute; top: 0; left: 0; opacity: 0.06; }
+.hero-card {
+  position: absolute; right: 0; bottom: 40px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px); border-radius: 14px; padding: 16px 20px;
+  min-width: 170px;
+}
+.hero-card-label { font-size: 11px; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 4px; }
+.hero-card-val { font-size: 22px; font-weight: 800; color: var(--teal); }
+.hero-card-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.hero-card2 { top: 30px; left: -10px; }
+.hero-card2 .hero-card-val { color: var(--gold); }
+
+/* ───── SECTION SHARED ───── */
+section { padding: 90px 6%; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-tag { font-size: 11px; font-weight: 800; color: var(--teal); letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px; }
+.section-title { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; line-height: 1.2; margin-bottom: 16px; }
+.section-sub { font-size: 16px; color: rgba(255,255,255,0.55); max-width: 560px; line-height: 1.75; margin-bottom: 50px; }
+.divider { width: 56px; height: 3px; background: linear-gradient(to right, var(--teal), var(--gold)); border-radius: 2px; margin: 16px 0 48px; }
+
+/* ───── ABOUT STRIP ───── */
+#sobre-strip { background: var(--light-bg); padding: 60px 6%; }
+#sobre-strip .section-inner { display: flex; align-items: center; gap: 60px; flex-wrap: wrap; }
+.strip-text { flex: 1; min-width: 260px; }
+.strip-text h2 { font-size: 26px; font-weight: 800; color: var(--navy); margin-bottom: 12px; }
+.strip-text p { font-size: 15px; color: var(--gray); line-height: 1.75; }
+.strip-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.badge { background: rgba(0,175,145,0.12); border: 1px solid rgba(0,175,145,0.3); color: var(--teal-mid); font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 20px; }
+.strip-stats { display: flex; gap: 40px; }
+.stat-item { text-align: center; }
+.stat-num { font-size: 36px; font-weight: 900; color: var(--navy); }
+.stat-num span { color: var(--teal-mid); }
+.stat-lbl { font-size: 12px; color: var(--gray); font-weight: 500; }
+
+/* ───── SERVICES ───── */
+#servicos { background: var(--navy); }
+.pilares-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.pilar-card {
+  border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px;
+  transition: all .3s; cursor: default; position: relative; overflow: hidden;
+}
+.pilar-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(to right, var(--teal), var(--gold));
+  transform: scaleX(0); transform-origin: left; transition: transform .3s;
+}
+.pilar-card:hover { border-color: rgba(0,175,145,0.3); background: rgba(0,175,145,0.04); transform: translateY(-4px); }
+.pilar-card:hover::before { transform: scaleX(1); }
+.pilar-icon { width: 48px; height: 48px; border-radius: 12px; background: rgba(0,175,145,0.12); border: 1px solid rgba(0,175,145,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+.pilar-num { font-size: 11px; font-weight: 800; color: var(--teal); letter-spacing: 2px; margin-bottom: 6px; }
+.pilar-title { font-size: 17px; font-weight: 800; margin-bottom: 10px; }
+.pilar-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 16px; }
+.pilar-price { display: inline-block; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); border-radius: 8px; padding: 5px 12px; font-size: 13px; font-weight: 700; color: var(--gold); }
+
+/* service detail cards (full page section) */
+#servicos-detalhe { background: #060E1C; }
+.pilar-detail { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 18px; padding: 36px; margin-bottom: 24px; display: grid; grid-template-columns: 1fr 280px; gap: 40px; align-items: start; }
+.pilar-detail-num { font-size: 48px; font-weight: 900; color: rgba(0,175,145,0.15); line-height: 1; margin-bottom: 4px; }
+.pilar-detail-title { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+.pilar-detail-desc { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.75; margin-bottom: 20px; }
+.entregaveis-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.entregaveis-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.5; }
+.entregaveis-list li::before { content: ''; min-width: 18px; height: 18px; background: rgba(0,175,145,0.15); border: 1px solid rgba(0,175,145,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 1px; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4l2.5 2.5L9 1' stroke='%2300AF91' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: center; }
+.pilar-detail-price-box { background: var(--navy); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 24px; text-align: center; }
+.price-lbl { font-size: 11px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+.price-val { font-size: 40px; font-weight: 900; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+.price-note { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+.price-cta { display: block; background: var(--teal); color: var(--navy); border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 700; text-decoration: none; text-align: center; transition: all .2s; margin-top: 8px; }
+.price-cta:hover { background: #00c9a7; }
+
+/* ───── WHY US ───── */
+#porque { background: var(--navy); }
+.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.why-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 28px 22px; }
+.why-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(0,175,145,0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.why-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.why-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+/* ───── CTA STRIP ───── */
+#cta-strip {
+  background: linear-gradient(135deg, var(--teal-dark) 0%, var(--navy) 100%);
+  padding: 80px 6%;
+  text-align: center;
+  border-top: 1px solid rgba(0,175,145,0.2);
+  border-bottom: 1px solid rgba(0,175,145,0.2);
+}
+#cta-strip h2 { font-size: clamp(26px, 3vw, 40px); font-weight: 900; margin-bottom: 14px; }
+#cta-strip p { font-size: 16px; color: rgba(255,255,255,0.65); margin-bottom: 32px; }
+#cta-strip .btn-primary { display: inline-block; }
+
+/* ───── SOBRE NÓS ───── */
+#sobre { background: #060E1C; }
+.sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+.sobre-left {}
+.sobre-tag { font-size: 11px; font-weight: 800; color: var(--teal); letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px; }
+.sobre-title { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+.sobre-desc { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.8; margin-bottom: 28px; }
+.missao-card { background: rgba(0,175,145,0.07); border: 1px solid rgba(0,175,145,0.2); border-radius: 14px; padding: 22px; margin-bottom: 16px; }
+.missao-lbl { font-size: 11px; font-weight: 800; color: var(--teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.missao-text { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.7; }
+.sobre-right {}
+.valores-title { font-size: 18px; font-weight: 800; margin-bottom: 20px; }
+.valor-item { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 22px; }
+.valor-num { min-width: 36px; height: 36px; border-radius: 50%; background: rgba(0,175,145,0.12); border: 1px solid rgba(0,175,145,0.25); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: var(--teal); }
+.valor-info h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.valor-info p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+.presenca-strip { margin-top: 30px; background: rgba(201,168,76,0.07); border: 1px solid rgba(201,168,76,0.2); border-radius: 14px; padding: 20px; display: flex; gap: 32px; }
+.pres-item { display: flex; align-items: center; gap: 10px; }
+.pres-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+.pres-text { font-size: 14px; font-weight: 600; color: var(--gold); }
+
+/* ───── CONTACTO ───── */
+#contacto { background: var(--navy); }
+.contacto-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 60px; align-items: start; }
+.contacto-info {}
+.info-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 24px; }
+.info-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(0,175,145,0.1); border: 1px solid rgba(0,175,145,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.info-lbl { font-size: 11px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+.info-val { font-size: 15px; font-weight: 600; color: var(--white); }
+.info-val a { color: var(--teal); text-decoration: none; }
+.info-val a:hover { text-decoration: underline; }
+.contact-form { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 36px; }
+.form-title { font-size: 20px; font-weight: 800; margin-bottom: 24px; }
+.form-group { margin-bottom: 18px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+label { display: block; font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.6); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+input, select, textarea {
+  width: 100%; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+  color: var(--white); font-family: inherit; font-size: 14px;
+  padding: 12px 16px; transition: border-color .2s;
+  appearance: none;
+}
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,175,145,0.12);
+}
+select option { background: var(--navy); color: var(--white); }
+textarea { resize: vertical; min-height: 120px; }
+.btn-submit {
+  width: 100%; background: var(--teal); color: var(--navy);
+  border: none; border-radius: 10px; padding: 16px;
+  font-family: inherit; font-size: 15px; font-weight: 800;
+  cursor: pointer; transition: all .2s; margin-top: 4px;
+}
+.btn-submit:hover { background: #00c9a7; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,175,145,0.3); }
+.form-success {
+  display: none; background: rgba(0,175,145,0.1); border: 1px solid rgba(0,175,145,0.3);
+  border-radius: 10px; padding: 20px; text-align: center; margin-top: 16px;
+  color: var(--teal); font-weight: 700;
+}
+
+/* ───── FOOTER ───── */
+footer {
+  background: #040D18;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 50px 6% 28px;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 28px; }
+.footer-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; text-decoration: none; }
+.footer-logo-text { font-size: 17px; font-weight: 800; color: var(--white); }
+.footer-logo-text span { color: var(--teal); }
+.footer-tagline { font-size: 13px; color: var(--text-muted); line-height: 1.7; max-width: 240px; }
+.footer-col h4 { font-size: 12px; font-weight: 800; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 10px; transition: color .2s; }
+.footer-col a:hover { color: var(--teal); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.footer-copy { font-size: 13px; color: var(--text-muted); }
+.footer-copy span { color: var(--teal); font-weight: 600; }
+.footer-flag { font-size: 13px; color: var(--text-muted); }
+
+/* ───── RESPONSIVE ───── */
+@media (max-width: 1024px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .pilares-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+  .pilar-detail { grid-template-columns: 1fr; }
+  .pilar-detail-price-box { max-width: 320px; }
+  .sobre-grid { grid-template-columns: 1fr; }
+  .contacto-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .nav-links, .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .pilares-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .strip-stats { flex-wrap: wrap; }
+  #sobre-strip .section-inner { flex-direction: column; }
+  .presenca-strip { flex-direction: column; gap: 14px; }
+}
+@media (max-width: 480px) {
+  section { padding: 70px 5%; }
+  .why-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="nav-logo" href="#inicio">
+    <svg width="34" height="40" viewBox="0 0 100 115" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="50,4 96,28 96,86 50,110 4,86 4,28" fill="none" stroke="#00AF91" stroke-width="5"/>
+      <polygon points="50,20 82,38 82,78 50,96 18,78 18,38" fill="#12604E"/>
+      <polygon points="50,34 70,45 70,71 50,82 30,71 30,45" fill="#00AF91"/>
+      <text x="50" y="68" text-anchor="middle" font-family="Arial" font-weight="900" font-size="22" fill="#0B1F3A">SD</text>
+    </svg>
+    <span class="nav-logo-text">Secura<span>Dist</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#inicio">Início</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#sobre">Sobre Nós</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a class="nav-cta" href="#contacto">Pedir proposta →</a>
+  <div class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#inicio" onclick="toggleMenu()">Início</a>
+  <a href="#servicos" onclick="toggleMenu()">Serviços</a>
+  <a href="#sobre" onclick="toggleMenu()">Sobre Nós</a>
+  <a href="#contacto" onclick="toggleMenu()">Contacto</a>
+  <a href="#contacto" onclick="toggleMenu()" class="mobile-cta">Pedir proposta gratuita →</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="inicio">
+  <div class="hero-stripe"></div>
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-tag">
+        <span class="hero-dot"></span>
+        Lisboa &amp; Luanda · Disponível agora
+      </div>
+      <h1 class="hero-title">
+        Segurança que<br><em>Distribui Valor</em>
+      </h1>
+      <p class="hero-sub">Cibersegurança avançada, sistemas distribuídos e compliance para empresas que não se podem dar ao luxo de ser atacadas — ou de parecer fracas.</p>
+      <div class="hero-btns">
+        <a href="#servicos" class="btn-primary">Ver os nossos serviços</a>
+        <a href="#contacto" class="btn-outline">Falar connosco</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-hex-wrap">
+        <svg class="hex-bg" width="340" height="390" viewBox="0 0 340 390" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="170,14 326,96 326,294 170,376 14,294 14,96" fill="none" stroke="#00AF91" stroke-width="2"/>
+          <polygon points="170,60 290,128 290,266 170,334 50,266 50,128" fill="none" stroke="#00AF91" stroke-width="1.5" opacity="0.4"/>
+        </svg>
+        <svg style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)" width="120" height="138" viewBox="0 0 100 115" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="50,4 96,28 96,86 50,110 4,86 4,28" fill="none" stroke="#00AF91" stroke-width="3.5"/>
+          <polygon points="50,20 82,38 82,78 50,96 18,78 18,38" fill="#12604E"/>
+          <polygon points="50,34 70,45 70,71 50,82 30,71 30,45" fill="#00AF91"/>
+          <text x="50" y="67" text-anchor="middle" font-family="Arial" font-weight="900" font-size="22" fill="#0B1F3A">SD</text>
+        </svg>
+        <div class="hero-card" style="right:-10px;bottom:60px">
+          <div class="hero-card-label">CLIENTES SERVIDOS</div>
+          <div class="hero-card-val">+20</div>
+          <div class="hero-card-sub">Portugal &amp; Angola</div>
+        </div>
+        <div class="hero-card hero-card2" style="top:50px;left:-10px">
+          <div class="hero-card-label">ENTREGAS NO PRAZO</div>
+          <div class="hero-card-val" style="color:var(--gold)">100%</div>
+          <div class="hero-card-sub">Garantia incluída</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SOBRE STRIP ═══ -->
+<section id="sobre-strip">
+  <div class="section-inner">
+    <div class="strip-text">
+      <h2>Quem somos</h2>
+      <p>A SecuraDist é uma empresa de cibersegurança e tecnologia focada em organizações lusófonas. Protegemos sistemas, formamos equipas, garantimos compliance e construímos a presença digital que os clientes merecem.</p>
+      <div class="strip-badges">
+        <span class="badge">Lisboa &amp; Luanda</span>
+        <span class="badge">Cibersegurança &amp; Sistemas</span>
+        <span class="badge">Formação · SOC · Compliance</span>
+      </div>
+    </div>
+    <div class="strip-stats">
+      <div class="stat-item">
+        <div class="stat-num">5<span>+</span></div>
+        <div class="stat-lbl">Anos de experiência</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">20<span>+</span></div>
+        <div class="stat-lbl">Clientes servidos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">2<span></span></div>
+        <div class="stat-lbl">Países de operação</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES PREVIEW ═══ -->
+<section id="servicos">
+  <div class="section-inner">
+    <div class="section-tag">Os nossos serviços</div>
+    <h2 class="section-title">5 Pilares para fazer<br>a sua marca crescer</h2>
+    <div class="divider"></div>
+
+    <div class="pilares-grid">
+      <div class="pilar-card">
+        <div class="pilar-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="pilar-num">PILAR 01</div>
+        <div class="pilar-title">Cibersegurança Avançada</div>
+        <div class="pilar-desc">Testes de intrusão, análise de vulnerabilidades e planos de resposta a incidentes. Entramos na sua empresa antes que os atacantes o façam.</div>
+        <span class="pilar-price">Sob consulta</span>
+      </div>
+
+      <div class="pilar-card">
+        <div class="pilar-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/>
+          </svg>
+        </div>
+        <div class="pilar-num">PILAR 02</div>
+        <div class="pilar-title">Sistemas Distribuídos</div>
+        <div class="pilar-desc">Arquitectura cloud segura por design, separação de sistemas para tolerância a falhas e integração DevSecOps. Infraestrutura que não cai.</div>
+        <span class="pilar-price">Sob consulta</span>
+      </div>
+
+      <div class="pilar-card">
+        <div class="pilar-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+          </svg>
+        </div>
+        <div class="pilar-num">PILAR 03</div>
+        <div class="pilar-title">Formação Especializada</div>
+        <div class="pilar-desc">Workshops de consciencialização, treino anti-phishing, formação de equipas de TI e programas de certificação. Porque a maioria dos ataques começa por um humano.</div>
+        <span class="pilar-price">A partir de €500/workshop</span>
+      </div>
+
+      <div class="pilar-card">
+        <div class="pilar-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <div class="pilar-num">PILAR 04</div>
+        <div class="pilar-title">SOC &amp; Compliance</div>
+        <div class="pilar-desc">Monitorização 24/7 dos seus sistemas, resposta a incidentes em tempo real e acompanhamento para certificação ISO 27001 e conformidade RGPD.</div>
+        <span class="pilar-price">A partir de €300/mês</span>
+      </div>
+
+      <div class="pilar-card" style="grid-column: span 1;">
+        <div class="pilar-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
+          </svg>
+        </div>
+        <div class="pilar-num">PILAR 05</div>
+        <div class="pilar-title">Design &amp; Branding Digital</div>
+        <div class="pilar-desc">Identidade visual, website e comunicação para empresas tecnológicas. Produto excelente merece imagem à altura — e a SecuraDist sabe exactamente como fazer isso.</div>
+        <span class="pilar-price">A partir de €450</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES DETAIL ═══ -->
+<section id="servicos-detalhe">
+  <div class="section-inner">
+    <div class="section-tag">Em detalhe</div>
+    <h2 class="section-title">O que está incluído<br>em cada pilar</h2>
+    <div class="divider"></div>
+
+    <!-- Pilar 01 -->
+    <div class="pilar-detail">
+      <div>
+        <div class="pilar-detail-num">01</div>
+        <div class="pilar-detail-title">Cibersegurança Avançada</div>
+        <div class="pilar-detail-desc">Entramos na empresa do cliente e perguntamos: "Onde consegue um atacante entrar?" — e depois fechamos essas portas. O cliente típico é uma empresa que já foi atacada, ou que tem dados sensíveis e sabe que é um alvo.</div>
+        <ul class="entregaveis-list">
+          <li>Testes de intrusão (penetration testing) — tentamos hackear antes dos outros</li>
+          <li>Análise de vulnerabilidades em sistemas, redes e aplicações</li>
+          <li>Instalação e configuração de SIEM (monitorização em tempo real)</li>
+          <li>Criação de plano de resposta a incidentes personalizado</li>
+          <li>Relatório executivo com risco classificado por prioridade</li>
+          <li>Acompanhamento na remediação das vulnerabilidades encontradas</li>
+        </ul>
+      </div>
+      <div class="pilar-detail-price-box">
+        <div class="price-lbl">Investimento</div>
+        <div class="price-val" style="font-size:28px">Sob consulta</div>
+        <div class="price-note">Orçamento personalizado por dimensão e âmbito</div>
+        <a href="#contacto" class="price-cta">Pedir avaliação</a>
+      </div>
+    </div>
+
+    <!-- Pilar 02 -->
+    <div class="pilar-detail">
+      <div>
+        <div class="pilar-detail-num">02</div>
+        <div class="pilar-detail-title">Sistemas Distribuídos</div>
+        <div class="pilar-detail-desc">Construímos infraestrutura tecnológica que não cai. Para empresas que dependem de sistemas online 24/7 — bancos, plataformas, lojas — e precisam que esses sistemas funcionem, resistam a falhas, e sejam seguros por design desde o início.</div>
+        <ul class="entregaveis-list">
+          <li>Arquitectura cloud segura (AWS / Azure / GCP)</li>
+          <li>Separação de sistemas para tolerância a falhas (alta disponibilidade)</li>
+          <li>Integração de segurança no ciclo de desenvolvimento (DevSecOps)</li>
+          <li>Containerização e orquestração segura (Docker / Kubernetes)</li>
+          <li>Monitorização de infraestrutura e alertas automáticos</li>
+          <li>Plano de recuperação de desastres (DRP) documentado e testado</li>
+        </ul>
+      </div>
+      <div class="pilar-detail-price-box">
+        <div class="price-lbl">Investimento</div>
+        <div class="price-val" style="font-size:28px">Sob consulta</div>
+        <div class="price-note">Orçamento por complexidade de arquitectura</div>
+        <a href="#contacto" class="price-cta">Pedir avaliação</a>
+      </div>
+    </div>
+
+    <!-- Pilar 03 -->
+    <div class="pilar-detail">
+      <div>
+        <div class="pilar-detail-num">03</div>
+        <div class="pilar-detail-title">Formação Especializada</div>
+        <div class="pilar-detail-desc">A maioria dos ataques começa por um humano que clicou no sítio errado. Podes ter os melhores sistemas do mundo — e uma pessoa desatenta deita tudo por terra. Formamos equipas para que isso não aconteça. Sem capital de arranque elevado: só conhecimento e capacidade de comunicar bem.</div>
+        <ul class="entregaveis-list">
+          <li>Workshop de consciencialização para todos os colaboradores</li>
+          <li>Simulações de phishing e engenharia social controladas</li>
+          <li>Formação de equipas de TI em resposta a incidentes</li>
+          <li>Treino de gestores para decisões de segurança</li>
+          <li>Programas de certificação em cibersegurança</li>
+          <li>Disponível em formato presencial ou e-learning</li>
+        </ul>
+      </div>
+      <div class="pilar-detail-price-box">
+        <div class="price-lbl">A partir de</div>
+        <div class="price-val">€500</div>
+        <div class="price-note">Por workshop · programas mensais disponíveis</div>
+        <a href="#contacto" class="price-cta">Pedir proposta</a>
+      </div>
+    </div>
+
+    <!-- Pilar 04 -->
+    <div class="pilar-detail">
+      <div>
+        <div class="pilar-detail-num">04</div>
+        <div class="pilar-detail-title">SOC &amp; Compliance</div>
+        <div class="pilar-detail-desc">SOC significa que alguém está sempre a olhar para os sistemas do cliente — 24h, 7 dias — e reage quando algo suspeito acontece. Compliance garante que a empresa cumpre a lei e as normas internacionais, essencial para contratos com o Estado e grandes clientes.</div>
+        <ul class="entregaveis-list">
+          <li>Monitorização SOC 24/7 com resposta a incidentes</li>
+          <li>Conformidade RGPD — auditoria, políticas e DPO virtual</li>
+          <li>Processo de certificação ISO 27001 do início ao fim</li>
+          <li>Relatórios periódicos de conformidade para órgãos de gestão</li>
+          <li>Avaliação de risco de terceiros (fornecedores e parceiros)</li>
+          <li>Documentação de segurança pronta para auditoria externa</li>
+        </ul>
+      </div>
+      <div class="pilar-detail-price-box">
+        <div class="price-lbl">SOC a partir de</div>
+        <div class="price-val">€300</div>
+        <div class="price-note">Por mês · ISO 27001 sob consulta</div>
+        <a href="#contacto" class="price-cta">Pedir proposta</a>
+      </div>
+    </div>
+
+    <!-- Pilar 05 -->
+    <div class="pilar-detail">
+      <div>
+        <div class="pilar-detail-num">05</div>
+        <div class="pilar-detail-title">Design &amp; Branding Digital</div>
+        <div class="pilar-detail-desc">Muitas empresas de tecnologia têm produto excelente mas comunicação fraca: site antiquado, identidade sem personalidade, presença digital inexistente. Como a SecuraDist construiu a sua própria identidade do zero, sabemos exactamente o que as outras empresas precisam. O cliente típico: startup tecnológica, PME que quer crescer, ou empresa que quer parecer maior do que é.</div>
+        <ul class="entregaveis-list">
+          <li>Logótipo profissional e sistema visual completo</li>
+          <li>Manual de marca (20–30 páginas) com regras de aplicação</li>
+          <li>Website seguro e optimizado para SEO</li>
+          <li>Presença digital — Instagram, LinkedIn, Google Business</li>
+          <li>Documentação comercial — propostas, pitch decks, contratos</li>
+          <li>15 peças de conteúdo mensais para redes sociais</li>
+        </ul>
+      </div>
+      <div class="pilar-detail-price-box">
+        <div class="price-lbl">A partir de</div>
+        <div class="price-val">€450</div>
+        <div class="price-note">Identidade · Website · Comunicação</div>
+        <a href="#contacto" class="price-cta">Pedir proposta</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY US ═══ -->
+<section id="porque">
+  <div class="section-inner">
+    <div class="section-tag">Porquê a SecuraDist</div>
+    <h2 class="section-title">O que nos distingue</h2>
+    <div class="divider"></div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="why-title">Abordagem ofensiva real</div>
+        <div class="why-desc">Não fazemos apenas relatórios bonitos. Testamos os sistemas como um atacante real — e só paramos quando encontramos as falhas.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div class="why-title">Entrega no prazo</div>
+        <div class="why-desc">Cronograma definido por escrito no início. Cada fase tem data de entrega clara e um responsável nomeado.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="why-title">Escalada natural entre pilares</div>
+        <div class="why-desc">Um cliente que começa em cibersegurança pode evoluir para formação, depois compliance, depois branding. Um cliente pode valer 4 ou 5 contratos ao longo do tempo.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+          </svg>
+        </div>
+        <div class="why-title">Transparência total</div>
+        <div class="why-desc">Relatórios executivos claros, sem jargão desnecessário. A gestão sabe exactamente o estado da segurança da empresa em qualquer momento.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA STRIP ═══ -->
+<section id="cta-strip">
+  <h2>Pronto para dar o próximo passo?</h2>
+  <p>Conte-nos o seu projecto. Respondemos em até 24 horas úteis com uma proposta personalizada.</p>
+  <a href="#contacto" class="btn-primary" style="font-size:16px;padding:16px 36px">Pedir proposta gratuita →</a>
+</section>
+
+<!-- ═══ SOBRE NÓS ═══ -->
+<section id="sobre">
+  <div class="section-inner">
+    <div class="sobre-grid">
+      <div class="sobre-left">
+        <div class="sobre-tag">Sobre a SecuraDist</div>
+        <h2 class="sobre-title">Construímos marcas com propósito e resultados</h2>
+        <p class="sobre-desc">A SecuraDist nasceu da convicção de que segurança não é só um problema técnico — é um problema de confiança. Empresas que protegem os seus dados, sistemas e imagem constroem relações duradouras. As que não o fazem, perdem tudo numa única noite.</p>
+
+        <div class="missao-card">
+          <div class="missao-lbl">Missão</div>
+          <div class="missao-text">Proteger, capacitar e posicionar organizações lusófonas para que operem com segurança, confiança e autoridade — num mercado digital cada vez mais hostil.</div>
+        </div>
+        <div class="missao-card" style="background:rgba(201,168,76,0.07);border-color:rgba(201,168,76,0.2)">
+          <div class="missao-lbl" style="color:var(--gold)">Visão</div>
+          <div class="missao-text">Ser a empresa de referência em cibersegurança e transformação digital para negócios lusófonos em Portugal e Angola.</div>
+        </div>
+
+        <div class="presenca-strip">
+          <div class="pres-item"><div class="pres-dot"></div><div class="pres-text">Lisboa, Portugal</div></div>
+          <div class="pres-item"><div class="pres-dot"></div><div class="pres-text">Luanda, Angola</div></div>
+        </div>
+      </div>
+      <div class="sobre-right">
+        <div class="valores-title">Os nossos valores</div>
+        <div class="valor-item">
+          <div class="valor-num">01</div>
+          <div class="valor-info">
+            <h4>Integridade</h4>
+            <p>Falamos com clareza sobre o que encontramos — mesmo que seja incómodo. Não escondemos problemas, reportamo-los com rigor.</p>
+          </div>
+        </div>
+        <div class="valor-item">
+          <div class="valor-num">02</div>
+          <div class="valor-info">
+            <h4>Clareza técnica</h4>
+            <p>Relatórios sem jargão excessivo. A gestão e os técnicos recebem a mesma verdade — em linguagens diferentes.</p>
+          </div>
+        </div>
+        <div class="valor-item">
+          <div class="valor-num">03</div>
+          <div class="valor-info">
+            <h4>Resultados mensuráveis</h4>
+            <p>Cada projecto começa com métricas claras. Vulnerabilidades encontradas, tempo de resposta, conformidade atingida — números reais.</p>
+          </div>
+        </div>
+        <div class="valor-item">
+          <div class="valor-num">04</div>
+          <div class="valor-info">
+            <h4>Parceria de longo prazo</h4>
+            <p>A segurança não é um projecto com fim. É uma relação contínua. Crescemos com os nossos clientes ao longo do tempo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACTO ═══ -->
+<section id="contacto">
+  <div class="section-inner">
+    <div class="section-tag">Contacto</div>
+    <h2 class="section-title">Vamos conversar</h2>
+    <div class="divider"></div>
+    <div class="contacto-grid">
+      <div class="contacto-info">
+        <p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.8;margin-bottom:36px">Seja para uma avaliação de segurança, um projecto de arquitectura, formação de equipa ou compliance — respondemos em até 24 horas úteis com uma proposta personalizada, sem compromisso.</p>
+
+        <div class="info-item">
+          <div class="info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div class="info-lbl">Email</div>
+            <div class="info-val"><a href="mailto:securadist@gmail.com">securadist@gmail.com</a></div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.7A2 2 0 012.18 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="info-lbl">Telefone</div>
+            <div class="info-val"><a href="tel:+351965229072">+351 965 229 072</a></div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="info-lbl">WhatsApp</div>
+            <div class="info-val"><a href="https://wa.me/351965229072" target="_blank" rel="noopener">wa.me/351965229072</a></div>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00AF91" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <div class="info-lbl">Localização</div>
+            <div class="info-val">Lisboa, Portugal · Luanda, Angola</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM — substitua YOUR_FORM_ID pelo ID do Formspree -->
+      <div class="contact-form">
+        <div class="form-title">Envie-nos uma mensagem</div>
+        <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+          <div class="form-row">
+            <div>
+              <label for="nome">Nome completo *</label>
+              <input type="text" id="nome" name="nome" placeholder="O seu nome" required>
+            </div>
+            <div>
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" placeholder="email@empresa.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <label for="telefone">Telefone / WhatsApp</label>
+              <input type="tel" id="telefone" name="telefone" placeholder="+351 900 000 000">
+            </div>
+            <div>
+              <label for="servico">Serviço de interesse *</label>
+              <select id="servico" name="servico" required>
+                <option value="" disabled selected>Escolher...</option>
+                <option>Cibersegurança Avançada (Pentest / Vulnerabilidades)</option>
+                <option>Sistemas Distribuídos (Cloud / DevSecOps)</option>
+                <option>Formação Especializada (Workshops / Certificação)</option>
+                <option>SOC &amp; Compliance (ISO 27001 / RGPD)</option>
+                <option>Design &amp; Branding Digital</option>
+                <option>Outro</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="mensagem">Mensagem *</label>
+            <textarea id="mensagem" name="mensagem" placeholder="Conte-nos o seu projecto — quanto mais detalhe, melhor conseguimos ajudar." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Enviar mensagem →</button>
+          <div class="form-success" id="formSuccess">
+            ✓ &nbsp; Mensagem recebida! Respondemos em até 24 horas úteis.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <a class="footer-logo" href="#inicio">
+          <svg width="30" height="35" viewBox="0 0 100 115" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="50,4 96,28 96,86 50,110 4,86 4,28" fill="none" stroke="#00AF91" stroke-width="5"/>
+            <polygon points="50,20 82,38 82,78 50,96 18,78 18,38" fill="#12604E"/>
+            <polygon points="50,34 70,45 70,71 50,82 30,71 30,45" fill="#00AF91"/>
+            <text x="50" y="68" text-anchor="middle" font-family="Arial" font-weight="900" font-size="22" fill="#0B1F3A">SD</text>
+          </svg>
+          <span class="footer-logo-text">Secura<span>Dist</span></span>
+        </a>
+        <p class="footer-tagline">Cibersegurança avançada, sistemas distribuídos, formação e compliance para empresas em Portugal e Angola.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <a href="#inicio">Início</a>
+        <a href="#servicos">Serviços</a>
+        <a href="#sobre">Sobre Nós</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <a href="mailto:securadist@gmail.com">securadist@gmail.com</a>
+        <a href="tel:+351965229072">+351 965 229 072</a>
+        <a href="https://wa.me/351965229072" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#contacto">Lisboa · Luanda</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 <span>SecuraDist</span>. Todos os direitos reservados.</div>
+      <div class="footer-flag">🇵🇹 Portugal · 🇦🇴 Angola</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Mobile menu ──
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── Nav active highlight on scroll ──
+const sections = document.querySelectorAll('section[id], footer');
+const navLinks = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.style.color = '');
+      const link = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (link) link.style.color = 'var(--teal)';
+    }
+  });
+}, { threshold: 0.35 });
+document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+// ── Contact form (Formspree) ──
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = form.querySelector('.btn-submit');
+  btn.textContent = 'A enviar...';
+  btn.disabled = true;
+
+  try {
+    const resp = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (resp.ok) {
+      form.reset();
+      document.getElementById('formSuccess').style.display = 'block';
+      btn.style.display = 'none';
+    } else {
+      btn.textContent = 'Erro — tente novamente';
+      btn.disabled = false;
+    }
+  } catch {
+    btn.textContent = 'Erro — tente novamente';
+    btn.disabled = false;
+  }
+});
+
+// ── Animate cards on scroll ──
+const cards = document.querySelectorAll('.pilar-card, .why-card, .pilar-detail');
+const cardObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = e.target.classList.contains('pilar-detail') ? '' : 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+cards.forEach(c => {
+  c.style.opacity = '0';
+  if (!c.classList.contains('pilar-detail')) c.style.transform = 'translateY(20px)';
+  c.style.transition = 'opacity .4s ease, transform .4s ease';
+  cardObs.observe(c);
+});
+</script>
+</body>
+</html>
