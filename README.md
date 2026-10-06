@@ -1,78 +1,36 @@
-# 🛡️ SecuraDist
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-**Cibersegurança para o Espaço Lusófono**
+## Getting Started
 
-Protegemos pequenas e médias empresas em Portugal e Angola contra ameaças digitais — com serviços acessíveis, conformidade NIS2 e suporte em português.
-
----
-
-## 🌐 Website
-
-[securadist.com](https://securadist.com)
-
----
-
-## 📋 Sobre a Empresa
-
-A SecuraDist é uma startup portuguesa de cibersegurança focada no mercado lusófono. Num contexto em que 90% das PMEs portuguesas não têm qualquer protecção digital e a Directiva NIS2 é obrigatória desde Outubro de 2024, criámos uma solução completa e acessível.
-
-**Sede:** Portugal  
-**Mercados:** Portugal · Angola  
-**Fundação:** 2026
-
----
-
-## 🔧 Os 5 Pilares de Serviço
-
-| # | Serviço | Descrição |
-|---|---------|-----------|
-| 1 | **Cibersegurança Avançada** | Protecção de redes, endpoints e dados |
-| 2 | **Sistemas Distribuídos** | Infraestrutura resiliente e segura |
-| 3 | **Formação & Consciencialização** | Treino de equipas contra ameaças humanas |
-| 4 | **SOC & Compliance NIS2** | Monitorização contínua e conformidade regulatória |
-| 5 | **Design & Presença Digital** | Identidade visual e segurança da marca online |
-
----
-
-## 🗂️ Este Repositório
-
-```
-├── index.html     ← Website principal (securadist.com)
-└── vercel.json    ← Configuração de deploy automático
-```
-
-### Como actualizar o site
+First, run the development server:
 
 ```bash
-# Edita o index.html, depois:
-git add .
-git commit -m "Descrição da alteração"
-git push
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-O Vercel faz o deploy automaticamente em menos de 60 segundos.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
----
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 📞 Contactos
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-| | |
-|--|--|
-| **Email** | securadist@gmail.com |
-| **Telefone** | +351 965 229 072 |
-| **Website** | securadist.com |
+## Learn More
 
----
+To learn more about Next.js, take a look at the following resources:
 
-## 🎨 Identidade Visual
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-| Elemento | Valor |
-|----------|-------|
-| Cor Principal | `#0B1F3A` (Navy) |
-| Cor Secundária | `#00AF91` (Teal) |
-| Acento | `#C9A84C` (Gold) |
-| Tipografia | Plus Jakarta Sans |
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
----
+## Deploy on Vercel
 
-*SecuraDist · Protegemos as empresas lusófonas no mundo digital*
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

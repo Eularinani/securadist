@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #0b1f3a;
+  --color-navy-deep: #060e1c;
+  --color-footer: #040d18;
+  --color-teal-brand: #00af91;
+  --color-teal-bright: #00c9a7;
+  --color-teal-mid: #00877a;
+  --color-teal-dark: #12604e;
+  --color-gold: #c9a84c;
+  --color-gold-dark: #9e8235;
+  --color-mist: #f4f6f8;
+  --color-slate-brand: #334455;
+  --color-muted: #8798aa;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, system-ui,
+    sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas,
+    monospace;
+
+  /* Motion system — micro 150-300ms, transições ≤400ms */
+  --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
+  --animate-float: float-y 7s ease-in-out infinite;
+  --animate-float-delayed: float-y 8s ease-in-out 1.2s infinite;
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 38s linear infinite;
+  --animate-pop: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-spin-slower: spin 24s linear infinite;
+  --animate-scan: scan-y 5.5s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.8s linear infinite;
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(1.4);
+    }
+  }
+  @keyframes float-y {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes marquee-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: scale(0.6) translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  @keyframes scan-y {
+    0%,
+    100% {
+      transform: translateY(-120%);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(1200%);
+      opacity: 1;
+    }
+    65%,
+    99% {
+      opacity: 0;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(200%);
+    }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-navy);
+  color: #fff;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(0, 175, 145, 0.35);
+  color: #fff;
+}
+
+/* Grelha de telemetria — fundo hero / CTA */
+.bg-grid-teal {
+  background-image:
+    linear-gradient(rgba(0, 175, 145, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 175, 145, 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%);
+}
+
+/* Marquee — esvanecer bordas */
+.mask-fade-x {
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+
+/* Brilho varrendo botões primários */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+  pointer-events: none;
+}
+.btn-shine:hover::after {
+  animation: shimmer 0.9s ease;
+}
+
+/* Foco visível — teclado (só elementos não-textuais; inputs usam a borda teal) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-teal-bright);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Scrollbar discreta */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-navy-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 175, 145, 0.35);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 175, 145, 0.55);
+}
+
+/* Movimento reduzido — respeitar preferência do SO */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
