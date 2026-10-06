@@ -8,6 +8,10 @@ import {
   BadgeCheck,
   Calendar,
   Camera,
+  Check,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   CircleCheck,
   Clock,
   FileText,
@@ -399,6 +403,310 @@ function FieldError({ message }: { message?: string }) {
   );
 }
 
+/* Dropdown próprio — substitui o select nativo */
+function CustomSelect({
+  id,
+  name,
+  value,
+  onChange,
+  onBlur,
+  placeholder,
+  options,
+  icon: Icon,
+  invalid,
+}: {
+  id: string;
+  name: string;
+  value: string;
+  onChange: (v: string) => void;
+  onBlur: () => void;
+  placeholder: string;
+  options: string[];
+  icon: React.ElementType;
+  invalid?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [hl, setHl] = useState(-1);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false);
+        setHl(-1);
+      }
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [open ]);
+
+  function pick(v: string) {
+    onChange(v);
+    setOpen(false);
+    setHl(-1);
+  }
+
+  function onKey(e: React.KeyboardEvent) {
+    if (e.key === "Escape") {
+      setOpen(false);
+      setHl(-1);
+      return;
+    }
+    if (!open && (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      setOpen(true);
+      setHl(Math.max(options.indexOf(value), 0));
+      return;
+    }
+    if (!open) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHl((h) => (h + 1) % options.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHl((h) => (h - 1 + options.length) % options.length);
+    } else if (e.key === "Enter" && hl >= 0) {
+      e.preventDefault();
+      pick(options[hl]);
+    }
+  }
+
+  return (
+    <div ref={ref} className="relative" onKeyDown={onKey}>
+      <input type="hidden" name={name} value={value} />
+      <Icon size={16} aria-hidden="true" className={fieldIconCls} />
+      <button
+        type="button"
+        id={id}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => {
+          setOpen((o) => !o);
+          setHl(Math.max(options.indexOf(value), 0));
+        }}
+        onBlur={onBlur}
+        className={`${inputCls} flex cursor-pointer items-center justify-between gap-3 text-left ${!value ? "text-white/30" : ""} ${invalid ? inputErrorCls : ""}`}
+      >
+        <span className="truncate">{value || placeholder}</span>
+        <ChevronDown
+          size={16}
+          aria-hidden="true"
+          className={`shrink-0 text-white/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <ul
+          role="listbox"
+          aria-labelledby={id}
+          className="animate-pop absolute inset-x-0 z-50 mt-2 overflow-hidden rounded-xl border border-white/10 bg-navy-deep p-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+        >
+          {options.map((op, i) => {
+            const sel = op === value;
+            return (
+              <li key={op} role="option" aria-selected={sel}>
+                <button
+                  type="button"
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    pick(op);
+                  }}
+                  onMouseEnter={() => setHl(i)}
+                  className={`flex w-full cursor-pointer items-center justify-between rounded-lg px-3.5 py-3 text-left text-sm transition-colors duration-150 ${
+                    i === hl ? "bg-teal-brand/15 text-white" : "text-white/70"
+                  } ${sel ? "font-bold text-teal-bright" : ""}`}
+                >
+                  {op}
+                  {sel && <Check size={15} aria-hidden="true" className="text-teal-brand" />}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+/* Calendário próprio — substitui o date picker nativo */
+const MESES = [
+  "janeiro",
+  "fevereiro",
+  "março",
+  "abril",
+  "maio",
+  "junho",
+  "julho",
+  "agosto",
+  "setembro",
+  "outubro",
+  "novembro",
+  "dezembro",
+];
+const DIAS_SEM = ["S", "T", "Q", "Q", "S", "S", "D"];
+
+function toISO(y: number, m: number, d: number) {
+  return `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+}
+
+function CustomDate({
+  id,
+  name,
+  value,
+  onChange,
+}: {
+  id: string;
+  name: string;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const base = value ? new Date(`${value}T12:00:00`) : new Date();
+  const [view, setView] = useState({
+    y: base.getFullYear(),
+    m: base.getMonth(),
+  });
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, [open ]);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const sel = value ? new Date(`${value}T12:00:00`) : null;
+  const first = (new Date(view.y, view.m, 1).getDay() + 6) % 7;
+  const days = new Date(view.y, view.m + 1, 0).getDate();
+  const cells: (number | null)[] = [
+    ...Array<null>(first).fill(null),
+    ...Array.from({ length: days }, (_, i) => i + 1),
+  ];
+
+  function nav(dir: 1 | -1) {
+    setView((v) => {
+      const m = v.m + dir;
+      if (m < 0) return { y: v.y - 1, m: 11 };
+      if (m > 11) return { y: v.y + 1, m: 0 };
+      return { y: v.y, m };
+    });
+  }
+
+  const label = sel
+    ? `${sel.getDate()} ${MESES[sel.getMonth()].slice(0, 3)} ${sel.getFullYear()}`
+    : "Escolher data";
+
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      onKeyDown={(e) => {
+        if (e.key === "Escape") setOpen(false);
+      }}
+    >
+      <input type="hidden" name={name} value={value} />
+      <Calendar size={16} aria-hidden="true" className={fieldIconCls} />
+      <button
+        type="button"
+        id={id}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        className={`${inputCls} flex cursor-pointer items-center justify-between gap-3 text-left ${!value ? "text-white/30" : ""}`}
+      >
+        <span className="truncate">{label}</span>
+        <ChevronDown
+          size={16}
+          aria-hidden="true"
+          className={`shrink-0 text-white/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <div
+          role="dialog"
+          aria-label="Escolher data"
+          className="animate-pop absolute left-0 z-50 mt-2 w-[280px] rounded-xl border border-white/10 bg-navy-deep p-4 shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+        >
+          <div className="mb-3 flex items-center justify-between">
+            <button
+              type="button"
+              aria-label="Mês anterior"
+              onClick={() => nav(-1)}
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <ChevronLeft size={16} aria-hidden="true" />
+            </button>
+            <p className="text-sm font-bold text-white capitalize">
+              {MESES[view.m]} {view.y}
+            </p>
+            <button
+              type="button"
+              aria-label="Próximo mês"
+              onClick={() => nav(1)}
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+            >
+              <ChevronRight size={16} aria-hidden="true" />
+            </button>
+          </div>
+          <div className="mb-1 grid grid-cols-7 gap-1 text-center">
+            {DIAS_SEM.map((d, i) => (
+              <span key={i} className="py-1 font-mono text-[10px] text-white/35">
+                {d}
+              </span>
+            ))}
+          </div>
+          <div className="grid grid-cols-7 gap-1">
+            {cells.map((d, i) => {
+              if (d === null) return <span key={`e${i}`} />;
+              const iso = toISO(view.y, view.m, d);
+              const past = new Date(view.y, view.m, d) < today;
+              const isSel = value === iso;
+              return (
+                <button
+                  key={iso}
+                  type="button"
+                  disabled={past}
+                  onClick={() => {
+                    onChange(iso);
+                    setOpen(false);
+                  }}
+                  aria-label={`${d} de ${MESES[view.m]} de ${view.y}`}
+                  aria-pressed={isSel}
+                  className={`flex h-9 w-9 items-center justify-center rounded-full text-[13px] tabular-nums transition-colors duration-150 ${
+                    isSel
+                      ? "cursor-pointer bg-teal-brand font-bold text-navy"
+                      : past
+                        ? "cursor-not-allowed text-white/20"
+                        : "cursor-pointer text-white/75 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  {d}
+                </button>
+              );
+            })}
+          </div>
+          {value && (
+            <button
+              type="button"
+              onClick={() => {
+                onChange("");
+                setOpen(false);
+              }}
+              className="mt-3 w-full cursor-pointer rounded-lg py-2 text-center text-[13px] font-bold text-white/50 transition-colors hover:bg-white/5 hover:text-white"
+            >
+              Limpar data
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ContactForm({ onAnother }: { onAnother: () => void }) {
   const [state, handleSubmit] = useForm("mvkzgpop");
   const [values, setValues] = useState<Fields>(EMPTY);
@@ -545,28 +853,24 @@ function ContactForm({ onAnother }: { onAnother: () => void }) {
         <label htmlFor="servico" className={labelCls}>
           Preciso de *
         </label>
-        <div className="relative">
-          <ShieldCheck size={16} aria-hidden="true" className={fieldIconCls} />
-          <select
-            id="servico"
-            name="servico"
-            value={values.servico}
-            onChange={(e) => set("servico", e.target.value)}
-            onBlur={() => blur("servico")}
-            aria-invalid={!!clientErrors.servico}
-            className={`${inputCls} appearance-none ${clientErrors.servico ? inputErrorCls : ""}`}
-          >
-            <option value="" disabled>
-              Escolher...
-            </option>
-            <option className="bg-navy">Cibersegurança</option>
-            <option className="bg-navy">Sistemas</option>
-            <option className="bg-navy">Formação</option>
-            <option className="bg-navy">SOC / Compliance</option>
-            <option className="bg-navy">Branding</option>
-            <option className="bg-navy">Outro</option>
-          </select>
-        </div>
+        <CustomSelect
+          id="servico"
+          name="servico"
+          value={values.servico}
+          onChange={(v) => set("servico", v)}
+          onBlur={() => blur("servico")}
+          placeholder="Escolher..."
+          options={[
+            "Cibersegurança",
+            "Sistemas",
+            "Formação",
+            "SOC / Compliance",
+            "Branding",
+            "Outro",
+          ]}
+          icon={ShieldCheck}
+          invalid={!!clientErrors.servico}
+        />
         <FieldError message={clientErrors.servico} />
       </div>
       <div className="mb-5 grid grid-cols-2 gap-5">
@@ -574,37 +878,27 @@ function ContactForm({ onAnother }: { onAnother: () => void }) {
           <label htmlFor="data" className={labelCls}>
             Data ideal
           </label>
-          <div className="relative">
-            <Calendar size={16} aria-hidden="true" className={fieldIconCls} />
-            <input
-              type="date"
-              id="data"
-              name="data_preferencial"
-              value={values.data}
-              onChange={(e) => set("data", e.target.value)}
-              className={`${inputCls} scheme-dark`}
-            />
-          </div>
+          <CustomDate
+            id="data"
+            name="data_preferencial"
+            value={values.data}
+            onChange={(v) => set("data", v)}
+          />
         </div>
         <div>
           <label htmlFor="hora" className={labelCls}>
             Horário
           </label>
-          <div className="relative">
-            <Clock size={16} aria-hidden="true" className={fieldIconCls} />
-            <select
-              id="hora"
-              name="hora_preferencial"
-              value={values.hora}
-              onChange={(e) => set("hora", e.target.value)}
-              className={`${inputCls} appearance-none`}
-            >
-              <option value="">...</option>
-              <option className="bg-navy">Manhã</option>
-              <option className="bg-navy">Tarde</option>
-              <option className="bg-navy">Fim de tarde</option>
-            </select>
-          </div>
+          <CustomSelect
+            id="hora"
+            name="hora_preferencial"
+            value={values.hora}
+            onChange={(v) => set("hora", v)}
+            onBlur={() => {}}
+            placeholder="..."
+            options={["Manhã", "Tarde", "Fim de tarde"]}
+            icon={Clock}
+          />
         </div>
       </div>
       <div className="mb-2">
