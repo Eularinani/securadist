@@ -439,7 +439,7 @@ function CustomSelect({
     };
     document.addEventListener("mousedown", close);
     return () => document.removeEventListener("mousedown", close);
-  }, [open ]);
+  }, [open]);
 
   function pick(v: string) {
     onChange(v);
@@ -453,7 +453,10 @@ function CustomSelect({
       setHl(-1);
       return;
     }
-    if (!open && (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ")) {
+    if (
+      !open &&
+      (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ")
+    ) {
       e.preventDefault();
       setOpen(true);
       setHl(Math.max(options.indexOf(value), 0));
@@ -517,7 +520,13 @@ function CustomSelect({
                   } ${sel ? "font-bold text-teal-bright" : ""}`}
                 >
                   {op}
-                  {sel && <Check size={15} aria-hidden="true" className="text-teal-brand" />}
+                  {sel && (
+                    <Check
+                      size={15}
+                      aria-hidden="true"
+                      className="text-teal-brand"
+                    />
+                  )}
                 </button>
               </li>
             );
@@ -571,11 +580,12 @@ function CustomDate({
   useEffect(() => {
     if (!open) return;
     const close = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     };
     document.addEventListener("mousedown", close);
     return () => document.removeEventListener("mousedown", close);
-  }, [open ]);
+  }, [open]);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -654,7 +664,10 @@ function CustomDate({
           </div>
           <div className="mb-1 grid grid-cols-7 gap-1 text-center">
             {DIAS_SEM.map((d, i) => (
-              <span key={i} className="py-1 font-mono text-[10px] text-white/35">
+              <span
+                key={i}
+                className="py-1 font-mono text-[10px] text-white/35"
+              >
                 {d}
               </span>
             ))}
@@ -958,7 +971,7 @@ function ContactForm({ onAnother }: { onAnother: () => void }) {
             </p>
             <p className="mt-0.5 text-[13px] text-white/60">
               Os seus dados estão guardados aqui. Verifique a ligação e tente de
-              novo — ou escreva para securadist@gmail.com.
+              novo — ou escreva para geral@securadist.com.
             </p>
           </div>
         </div>
@@ -1339,8 +1352,8 @@ export default function Home() {
                 {[
                   {
                     l: "Email",
-                    v: "securadist@gmail.com",
-                    h: "mailto:securadist@gmail.com",
+                    v: "geral@securadist.com",
+                    h: "mailto:geral@securadist.com",
                     Icon: Mail,
                   },
                   {
