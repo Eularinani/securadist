@@ -1030,37 +1030,14 @@ export default function Home() {
       <header className="absolute inset-x-0 top-0 z-999">
         <div className="mx-auto flex h-19 max-w-275 items-center justify-between px-6">
           <a href="#inicio" className="flex items-center gap-2.5 no-underline">
-            <svg
-              viewBox="0 0 100 115"
-              className="h-9 w-7.75"
-              aria-hidden="true"
-            >
-              <polygon
-                points="50,4 96,28 96,86 50,110 4,86 4,28"
-                fill="none"
-                stroke="#00AF91"
-                strokeWidth="5"
-              />
-              <polygon
-                points="50,20 82,38 82,78 50,96 18,78 18,38"
-                fill="#12604E"
-              />
-              <polygon
-                points="50,34 70,45 70,71 50,82 30,71 30,45"
-                fill="#00AF91"
-              />
-              <text
-                x="50"
-                y="68"
-                textAnchor="middle"
-                fontFamily="Arial"
-                fontWeight="900"
-                fontSize="22"
-                fill="#0B1F3A"
-              >
-                SD
-              </text>
-            </svg>
+            <Image
+              src="/logo.svg"
+              alt="Logótipo SecuraDist"
+              width={31}
+              height={36}
+              priority
+              className="h-9 w-auto"
+            />
             <span className="text-[17px] font-extrabold">
               Secura<span className="text-teal-brand">Dist</span>
             </span>
@@ -1423,6 +1400,19 @@ export default function Home() {
         />
         <div className="relative mx-auto max-w-225 text-center">
           <Reveal>
+            <a
+              href="#inicio"
+              aria-label="SecuraDist — voltar ao início"
+              className="mb-8 inline-flex"
+            >
+              <Image
+                src="/logo.svg"
+                alt="Logótipo SecuraDist"
+                width={53}
+                height={60}
+                className="h-15 w-auto"
+              />
+            </a>
             <h2 className="font-display text-4xl font-bold tracking-tight text-balance sm:text-5xl">
               Pronto para o próximo passo?
             </h2>
@@ -1435,7 +1425,14 @@ export default function Home() {
             </a>
           </Reveal>
           <div className="mt-20 flex flex-col items-center gap-6 border-t border-white/10 pt-8 text-sm text-white/45 sm:flex-row sm:justify-between">
-            <p>
+            <p className="flex items-center gap-2.5">
+              <Image
+                src="/logo.svg"
+                alt="Logótipo SecuraDist"
+                width={22}
+                height={25}
+                className="h-6 w-auto"
+              />
               © 2026{" "}
               <span className="font-semibold text-teal-brand">SecuraDist</span>
             </p>
