@@ -1400,19 +1400,6 @@ export default function Home() {
         />
         <div className="relative mx-auto max-w-225 text-center">
           <Reveal>
-            <a
-              href="#inicio"
-              aria-label="SecuraDist — voltar ao início"
-              className="mb-8 inline-flex"
-            >
-              <Image
-                src="/logo.svg"
-                alt="Logótipo SecuraDist"
-                width={53}
-                height={60}
-                className="h-15 w-auto"
-              />
-            </a>
             <h2 className="font-display text-4xl font-bold tracking-tight text-balance sm:text-5xl">
               Pronto para o próximo passo?
             </h2>
