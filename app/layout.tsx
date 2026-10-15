@@ -18,6 +18,14 @@ export const metadata: Metadata = {
   title: "SecuraDist — Segurança que Distribui Valor",
   description:
     "Cibersegurança avançada, sistemas distribuídos, formação e compliance para empresas em Portugal e Angola.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
 };
 
 export const viewport: Viewport = {
